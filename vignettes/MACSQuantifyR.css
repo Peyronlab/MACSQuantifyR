@@ -1,0 +1,54 @@
+body {
+    background-color: #fff;
+    margin: 1em auto;
+    max-width: 1800px ;
+    overflow: visible;
+    padding-left: 2em;
+    padding-right: 2em;
+    line-height: 1.35;
+}
+
+.main-content, .toc {
+    max-width: 1800px;
+    padding: 2rem 4rem;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+.main-content pre code, .main-content pre tt {
+      max-width: 1800px;
+
+    display: inline;
+    padding: 0;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+}
+
+.main-content pre> code {
+      max-width: 1800px;
+
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+    color: #567482;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+}
+.main-content code {
+      max-width: 1800px;
+
+    padding: 2px 4px;
+    font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+    color: #383e41;
+    background-color: #f3f6fa;
+    border-radius: .3rem;
+}
+
+.main-content img {
+    display: block;
+    margin: 0 auto;
+}
