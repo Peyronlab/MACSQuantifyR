@@ -13,34 +13,34 @@ minimum R coding.**
 
 &nbsp;
 
-
-<p style="color:green;">  **Automatic** sorting of the replicates 
-according to user input through a </p>
+**Automatic** sorting of the replicates 
+according to user input through a 
 
 - __user-friendly and interactive graphical interface__
 &nbsp;
 
-<p style="color:green;"> **Automatic**
-statistical treatment of each condition replicates with </p>
+**Automatic**
+statistical treatment of each condition replicates with 
 
 - __no black boxes__ 
 &nbsp;
 
-<p style="color:green;"> **Easy access** to 
+**Easy access** to 
 intermediary results at from each steps of the 
-analysis allowing a</p>
+analysis allowing a
+
 
 - __user-tailored analysis__ 
 &nbsp;
 
-<p style="color:green;"> **Comprehensive** report 
-generation with graphical representations for a </p>
+**Comprehensive** report 
+generation with graphical representations for a 
 
 - __automated and exhaustive analysis__ 
 &nbsp;
 
-<p style=" color:green;"> From replicate ordering 
-to combination index callculation MACSQuantifyR is a </p>
+From replicate ordering 
+to combination **index calculation** MACSQuantifyR is a
 
 - __all-in-one package for biologists__
 &nbsp;
