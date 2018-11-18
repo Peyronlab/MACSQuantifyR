@@ -51,6 +51,8 @@ You can install the released version of MACSQuantifyR with:
 
 ``` r
 # installation code 
+library(devtools)
+install_github("Peyronlab/MACSQuantifyR")
 ```
 
 ## News
