@@ -140,12 +140,10 @@ For example:
 ```{r eval=FALSE}
 # this line is used to created c_names variable 
 # (arbitrary condition names) for this experiment
-slot(MACSQuant,"param.experiment")$c_names <- c(sprintf("Drug1_c%d", 1:9),
-             sprintf("Drug2_c%d", 1:8))
-
+slot(MACSQuant,"param.experiment")$c_names <- c(sprintf("Drug1_c%d", 1:8))
 MACSQuant=on_plate_selection(MACSQuant, 
                    number_of_replicates = 3, 
-                   number_of_conditions = 17)
+                   number_of_conditions = 8)
 ```
 
 This line will generate a plot on which the user 
@@ -213,10 +211,10 @@ next part of the pipeline.
 
 
 ```{r}
-drugs_R_image <- system.file("extdata/", 
-                                   "drugs.RDS", 
+drugs_R_image <- system.file("extdata", 
+                                   "drugs.Rdata", 
                                    package = "MACSQuantifyR")
-MACSQuant=readRDS(drugs_R_image)
+load(drugs_R_image)
 kable(slot(MACSQuant, "statistics"), digits = 4)
 ```
 
@@ -254,7 +252,20 @@ existing outputMQ folder could be erased.
 
 #### Report generation
 
-At the end of the analysis... 
+At the end of the analysis the function provides the user with two plots. 
+
+```{r, echo = FALSE, fig.width=20, fig.height=20}
+example_res1 <- system.file("extdata/", 
+                            "barplot_counts.png", 
+                            package = "MACSQuantifyR")
+example_res2 <- system.file("extdata/", 
+                            "barplot_percent.png", 
+                            package = "MACSQuantifyR")
+img4 <-  rasterGrob(as.raster(readPNG(example_res1)), interpolate = FALSE)
+img5 <-  rasterGrob(as.raster(readPNG(example_res2)), interpolate = FALSE)
+grid.arrange(img4, img5, ncol = 2)
+
+```
 
 ## Combination index calculation
 

@@ -6,8 +6,8 @@
 #' @importFrom grDevices heat.colors
 #' @importFrom ggplot2 aes element_text geom_bar
 #' geom_errorbar ggplot ggtitle position_dodge
-#' scale_fill_hue theme xlab ylab
-#' @importFrom rlang .data
+#' scale_fill_manual theme theme_minimal xlab ylab
+#' ggsave
 #' @importFrom methods new
 #'
 #' @title Sort experimental design on graphical 96-well-plate
@@ -119,12 +119,13 @@ on_plate_selection <- function(MACSQuant,
         # every condition compute statistics on replicates
         # locate replicates for condition i
         loc <- locator(type = "n", n = number_of_replicates)
-        # ensure proper data selection
-        if (length(loc) == 2) {
+        # ensure proper data selection within graph
+        if (length(loc) == 2 & sum(loc$y < 8.5) == 3 & sum(loc$y > 0.5) == 3
+        & sum(loc$y < 12.5) == 3 & sum(loc$x > 0.5) == 3) {
             sorted_matrix[i, ] <- to_well_names(loc, col[i], well_letter)
             matched <- match_id_line(MACSQuant, sorted_matrix[i, ])
             if (length(matched) != number_of_replicates * 2) {
-                warning(c(
+                stop(c(
                     paste(
                         "Your file may not contains 2 gates",
                         "for one or more replicates in: ",
@@ -141,10 +142,11 @@ on_plate_selection <- function(MACSQuant,
 
             cat(paste(i, "...", sep = ""))
         } else {
-            warning("No data selected")
+            warning("Outside of selection field, select your data again")
+            break
         }
     }
-    cat("OK")
+    cat("OK\n")
     sorted_matrix_final <- sorted_matrix
     if (i != number_of_conditions) {
         stop("Process interrupted please start again")
@@ -192,7 +194,8 @@ on_plate_selection <- function(MACSQuant,
                 sorted_matrix_ctrl)
             print(sorted_matrix_final)
         } else {
-            warning("No data selected")
+            stop("Outside of selection field, select your data again")
+
         }
     }
     MACSQuant@my_replicates_sorted <- sorted_matrix_final
@@ -200,8 +203,9 @@ on_plate_selection <- function(MACSQuant,
         (length(MACSQuant@param.experiment$c_names) == 0)) {
         legend("topright",
             inset = c(-0.3, 0.05), legend = c("Conditions"),
-            pch = c(1), col = col[1]
-        )
+            pch = c(1), col = col[1])
+        MACSQuant@param.output$plt.labels <- c(rep("Conditions", number_of_conditions))
+        plt.labels <- c(rep("Conditions", number_of_conditions))
         statistics[, seq(3, 7)] <- vapply(statistics[, seq(3, 7)], function(x) {
             as.numeric(x)
         }, numeric(number_of_conditions))
@@ -211,15 +215,19 @@ on_plate_selection <- function(MACSQuant,
             "Conditions",
             "Control"
         ), pch = c(1), col = c(col[1], 1))
+        MACSQuant@param.output$plt.labels <- c(rep("Conditions", number_of_conditions), "Control")
+        plt.labels <- c(rep("Conditions", number_of_conditions), "Control")
         statistics[, seq(3, 7)] <- vapply(statistics[, seq(3, 7)], function(x) {
             as.numeric(x)
         }, numeric(number_of_conditions + 1))
     } else if (control == FALSE &
         (length(MACSQuant@param.experiment$c_names) != 0)) {
         legend("topright",
-            inset = c(-0.3, 0.05), legend = .data$c_names,
+            inset = c(-0.3, 0.05), legend = MACSQuant@param.experiment$c_names,
             pch = c(1), col = col
         )
+        MACSQuant@param.output$plt.labels <- rep(MACSQuant@param.experiment$c_names)
+        plt.labels <- rep(MACSQuant@param.experiment$c_names)
         statistics[, seq(3, 7)] <- vapply(statistics[, seq(3, 7)], function(x) {
             as.numeric(x)
         }, numeric(number_of_conditions))
@@ -229,6 +237,8 @@ on_plate_selection <- function(MACSQuant,
             MACSQuant@param.experiment$c_names,
             "Control"
         ), pch = c(1), col = c(col, 1))
+        MACSQuant@param.output$plt.labels <- c(MACSQuant@param.experiment$c_names, "Control")
+        plt.labels <- c(MACSQuant@param.experiment$c_names, "Control")
         statistics[, seq(3, 7)] <- vapply(statistics[, seq(3, 7)], function(x) {
             as.numeric(x)
         }, numeric(number_of_conditions + 1))
@@ -255,13 +265,24 @@ on_plate_selection <- function(MACSQuant,
     indices <- order_data(MACSQuant)
     MACSQuant@my_data_sorted <- MACSQuant@my_data[indices, ]
     message("...You can now run plot_data(...)...")
-        if(MACSQuant@param.experiment$control==T){
-            MACSQuant@param.experiment$doses=seq_len(number_of_conditions+1)
-            col=c(col,1)
-        } else {
-            MACSQuant@param.experiment$doses=seq_len(number_of_conditions)}
-    plot_data(MACSQuant, col,
-        plt.title = "Barplot test", flavour = "percent"
-    )
+
+    if (MACSQuant@param.experiment$control == TRUE) {
+        MACSQuant@param.experiment$doses <- seq_len(number_of_conditions + 1)
+        col <- c(col, 1)
+    } else {
+        MACSQuant@param.experiment$doses <- seq_len(number_of_conditions)
+    }
+
+    for (flav in c("counts", "percent"))
+    {
+        p <- plot_data(MACSQuant, col, flavour = flav, plt.labels = plt.labels)
+        plot(p)
+        if (save.files == TRUE) {
+            ggsave(paste("./outputMQ/barplot_", flav, ".png", sep = ""),
+                width = 15.875, height = 15.875,
+                units = "cm")
+        }
+        message("--> Done: image saved in ./outputMQ")
+    }
     return(MACSQuant)
 }

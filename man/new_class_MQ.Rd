@@ -7,11 +7,11 @@
 #initialize empty MACSQuant object
 new_class_MQ(my_data=NULL,my_data_sorted=NULL,my_replicates_sorted=NULL,
 number_of_replicates=NULL,number_of_conditions=NULL,doses=NULL,c_names=NULL,
-control=NULL,save.files=NULL)
+control=NULL,plt.title=NULL,plt.labels=NULL,save.files=NULL)
 #initialize custom MACSQuant object
 new_class_MQ(my_data,my_data_sorted=NULL,my_replicates_sorted=NULL,
 number_of_replicates=NULL,number_of_conditions=NULL,doses=NULL,
-c_names=NULL,control=NULL,save.files=NULL)
+c_names=NULL,control=NULL,plt.title=NULL,plt.labels=NULL,save.files=NULL)
 }
 \arguments{
 \item{my_data}{Contains the raw data}
@@ -31,6 +31,10 @@ c_names=NULL,control=NULL,save.files=NULL)
 \item{c_names}{Vector containing experiment names}
 
 \item{control}{logical: is there a control in this experiment (eg: Staurosporin)}
+
+\item{plt.title}{Title of the experiment to add to the barplot}
+
+\item{plt.labels}{legend labels for the bar plot}
 
 \item{save.files}{Used to save the image in the output folder}
 }

@@ -11,11 +11,11 @@
 #' #initialize empty MACSQuant object
 #' new_class_MQ(my_data=NULL,my_data_sorted=NULL,my_replicates_sorted=NULL,
 #' number_of_replicates=NULL,number_of_conditions=NULL,doses=NULL,c_names=NULL,
-#' control=NULL,save.files=NULL)
+#' control=NULL,plt.title=NULL,plt.labels=NULL,save.files=NULL)
 #' #initialize custom MACSQuant object
 #' new_class_MQ(my_data,my_data_sorted=NULL,my_replicates_sorted=NULL,
 #' number_of_replicates=NULL,number_of_conditions=NULL,doses=NULL,
-#' c_names=NULL,control=NULL,save.files=NULL)
+#' c_names=NULL,control=NULL,plt.title=NULL,plt.labels=NULL,save.files=NULL)
 #' @param my_data Contains the raw data
 #' @param my_data_sorted  Contains the sorted data (according to replicates order)
 #' @param my_replicates_sorted  Contains the sorted matrix containing replicates names
@@ -26,6 +26,8 @@
 #' @param doses  Numeric vector representing doses for each conditions
 #' @param c_names Vector containing experiment names
 #' @param control logical: is there a control in this experiment (eg: Staurosporin)
+#' @param plt.title Title of the experiment to add to the barplot
+#' @param plt.labels legend labels for the bar plot
 #' @param save.files Used to save the image in the output folder
 #'
 #' @examples
@@ -48,6 +50,8 @@ new_class_MQ <- function(my_data = NULL,
                          doses = NULL,
                          c_names = NULL,
                          control = NULL,
+                         plt.title = NULL,
+                         plt.labels = NULL,
                          save.files = NULL) {
     if (is.null(my_data)) {
         my_data <- data.frame()
@@ -76,6 +80,12 @@ new_class_MQ <- function(my_data = NULL,
     if (is.null(save.files)) {
         save.files <- FALSE
     }
+    if (is.null(plt.title)) {
+        plt.title <- character()
+    }
+    if (is.null(plt.labels)) {
+        plt.labels <- character()
+    }
 
     MACSQuant <- new(Class = "MACSQuant",
         my_data = my_data,
@@ -88,6 +98,8 @@ new_class_MQ <- function(my_data = NULL,
             c_names = c_names,
             control = control),
         param.output = list(
+            plt.title = plt.title,
+            plt.labels = plt.labels,
             save.files = save.files
     ))
 

@@ -51,6 +51,15 @@ to_well_names <- function(point_matrix, col, well_letter) {
     return(coordinates_names)
 }
 
+match_id_line <- function(MACSQuant, wid_vector) {
+    # match replicate id in raw data table (my_data)
+    # returns indices in raw data
+    matched <- c()
+    for (j in wid_vector) {
+        matched <- c(matched, which(MACSQuant@my_data$WID == j))
+    }
+    return(matched)
+}
 
 compute_statistics <- function(MACSQuant,
                                lines,
@@ -58,13 +67,13 @@ compute_statistics <- function(MACSQuant,
     data_selected <- MACSQuant@my_data[lines, ]
     Counts <- c()
     Percent <- c()
-    for (i in seq(1, MACSQuant@param.experiment$number_of_replicates * 2, 2)) {
+    for (rep in seq(1, MACSQuant@param.experiment$number_of_replicates * 2, 2)) {
         Counts <- c(
             Counts,
-            data_selected$`Count/mL`[i] -
-                data_selected$`Count/mL`[i + 1]
+            data_selected$`Count/mL`[rep] -
+                data_selected$`Count/mL`[rep + 1]
         )
-        Percent <- c(Percent, (data_selected$`%-#`[i + 1]) / 100)
+        Percent <- c(Percent, (data_selected$`%-#`[rep + 1]) / 100)
     }
     Full.path.first <- unlist(strsplit(
         data_selected$`Full path`[1],
@@ -74,10 +83,10 @@ compute_statistics <- function(MACSQuant,
 
     if (stats == "mean") {
         Count.minus <- mean(Counts)
-        Percent.plus <- mean(Percent) / 100
+        Percent.plus <- mean(Percent)
     } else if (stats == "median") {
         Count.minus <- median(Counts)
-        Percent.plus <- median(Percent) / 100
+        Percent.plus <- median(Percent)
     } else {
         stop(paste("Values for argument stats",
             "should be c('mean','median'). Other not supported",
@@ -95,15 +104,7 @@ compute_statistics <- function(MACSQuant,
     return(results)
 }
 
-match_id_line <- function(MACSQuant, wid_vector) {
-    # match replicate id in raw data table (my_data)
-    # returns indices in raw data
-    matched <- c()
-    for (j in wid_vector) {
-        matched <- c(matched, which(MACSQuant@my_data$WID == j))
-    }
-    return(matched)
-}
+
 
 order_data <- function(MACSQuant) {
 

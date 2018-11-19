@@ -14,7 +14,6 @@ Imports: readxl,
         utils,
         grDevices,
         ggplot2,
-        rlang,
         methods,
         stats
 biocViews: DataImport,
