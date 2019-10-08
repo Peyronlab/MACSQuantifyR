@@ -1,11 +1,11 @@
 Package: MACSQuantifyR
 Type: Package
-Title: Fast treatment of FACS data
+Title: Fast treatment of MACSQuantify FACS data
 Date: 08/10/2019
 Version: 0.99.0
 Author: Raphaël Bonnet [aut, cre], Marielle Nebout [dtc],Giulia Biondani [dtc], Jean-François Peyron[aut,ths], Inserm [fnd]
 Maintainer: Raphaël Bonnet <raphael.bonnet@univ-cotedazur.fr>
-Description: Automatically process the metadata of Macsquantify FACS sorter. 
+Description: Automatically process the metadata of MACSQuantify FACS sorter. 
     It runs multiple modules: i) imports of raw file and graphical selection of duplicates in well plate, 
     ii) computates statistics on data and iii) can compute combination index.
 Imports: readxl,
