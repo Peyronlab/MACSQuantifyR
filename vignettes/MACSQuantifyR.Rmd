@@ -1,0 +1,172 @@
+---
+title: "MACSQuantifyR - Introduction"
+author:
+- name: Raphaël Bonnet, Jean-François Peyron 
+  corresponding : yes    # Define only one corresponding author
+  email: raphael.bonnet@unice.fr
+  affiliation: Université Côte d’Azur, Inserm, C3M, France 
+date: "`r Sys.Date()`"
+output:
+    prettydoc::html_pretty:
+        theme: cayman
+        toc: true
+        css: MACSQuantifyR.css
+
+vignette: >
+    %\VignetteIndexEntry{MACSQuantifyR_quick_introduction}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+# Introduction 
+
+Flow cytometry is a largely used and popular technique not only to 
+establish cells' phenotypes but also to investigate functional parameters
+such as proliferation, death/apoptosis, cell cycle phases, signaling 
+pathways, mitochondrial functions... on living cells.
+
+The MACSQuantify software from Miltenyi&reg; is used to process and analyze 
+flow cytometry data (compensation settings, gate strategy to identify 
+particular cellular subpopulations) and to export FCS files for treatment 
+by outside programs.
+
+The experimental design always differ between different biologists 
+because of specific scientific questions, use of different drugs, 
+combinations of drugs. That can lead to unique and complex types of 
+templates across biologists (e.g multiple drugs on one plate).
+
+This experimental diversity prevents the use of an effective 
+processing methods for the biologist to handle his data 
+automatically. 
+
+This package aims at providing automatic treatment of the data
+after the acquisition and the validation of the data by the user. 
+
+To illustrate the benefits of this package, 
+we take the example of a drug screening experiment on cell viability. 
+More precisely, this experiment corresponds to the analysis of the 
+combination effects of two drugs on a human cancer cell line. 
+
+
+Here is the plate template chosen by the user that represents each drug
+alone (upper part of the culture plate) and combinations 
+(lower part of the plate).
+
+```{r, echo = FALSE}
+library(grid)
+library(png)
+path_img1 <- system.file("extdata", "combo.png", package = "MACSQuantifyR")
+img1 <- readPNG(path_img1)
+grid.raster(img1)
+```
+
+From such an experiment, the user can choose to export the results 
+in the form of an excel spreadsheet. This new document will provide 
+access to all replicates values that needs to be treated. 
+As mentioned previously,
+each biologist has his own plate setup, therefore most of the users 
+are subject to a considerable waste of
+time in the process of sorting the excel document according to the 
+plate template they followed.  
+
+One way to process these data automatically in this experiment would have 
+been to follow the template shown bellow 
+(that would allow an automatic sorting of the replicates on the 
+excel document).
+
+Such template may not be suitable for all experiments thus forcing
+the biologists to follow one of those template could 
+increase the complexity of the experiment and therefore 
+increase the risk of experimental errors.
+
+
+```{r, echo = FALSE, fig.width=4, fig.height=4}
+library(grid)
+library(png)
+library(gridExtra)
+
+path_img3 <- system.file("extdata", "scheme1.png", package = "MACSQuantifyR")
+path_img2 <- system.file("extdata", "scheme2.png", package = "MACSQuantifyR")
+
+img3 <-  rasterGrob(as.raster(readPNG(path_img3)), interpolate = FALSE)
+img2 <-  rasterGrob(as.raster(readPNG(path_img2)), interpolate = FALSE)
+
+grid.arrange(img3, img2, ncol = 2)
+paste("Horizontal template would allow to sort",
+    "the excel document according to well names (A1, A2, A3...)", sep = " ")
+paste("Vertical template would allow to sort",
+    "the excel document according to well number(exp_name_001,exp_name_002))", 
+    sep = " ")
+```
+
+
+The package that we present in these vignettes provides a efficient 
+solution to the sorting issue of the replicates and allows the automatic
+treatment of any template. 
+
+Also this package provides a variety of graphical
+representations and the possibility of generating a complete report of the
+statistical analysis done one each conditions.
+
+
+# Pipelines
+
+There are two ways to run this package:
+
+## Automatic pipeline
+
+* Through the fully automated function 
+    
+    * pipeline()
+    
+This function will load the data, create a graphical interface,
+which will allow the user to select the replicates.
+
+Then the function will generate intermediary results and will
+generate a complete report with all the informations provided by the user
+and all the graphical representations of the data.
+
+```{r, echo = FALSE,fig.asp=0.6}
+
+path_img4 <- system.file("extdata", "auto.png", package = "MACSQuantifyR")
+img4 <- readPNG(path_img4)
+grid.raster(img4)
+```
+
+[Click to see the dedicated vignette](MACSQuantifyR_pipeline.html)
+
+## Step-by-step pipeline
+
+* Manually through the functions
+    
+    * new_class_MQ()
+    * load_data()
+    * on_plate_selection()
+    * barplot_data()
+    * combination_index()
+    * generate_report()
+
+This utilization of the manual pipeline allows the user to generate 
+more complex (2D/3D) graphics and to have a better control on the output.
+
+The **generate_report()** function allows the user to generate the final 
+report at each step of the analysis.
+
+```{r, echo = FALSE, fig.width=10, fig.height=8,fig.asp=0.6}
+
+path_img5 <- system.file("extdata", "manual.png", package = "MACSQuantifyR")
+img5 <- readPNG(path_img5)
+grid.raster(img5)
+```
+
+[Click to see the dedicated vignette](MACSQuantifyR_combo.html)
+
+
+

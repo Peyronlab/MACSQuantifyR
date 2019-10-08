@@ -1,0 +1,169 @@
+---
+output:
+   word_document:
+       reference_docx: generate_report_template.docx
+params:
+    exp: ""
+    path: ""
+---
+
+---
+title: Report for MACSQuantifyR analysis
+subtitle: `r params$exp`
+date: "`r Sys.Date()`"
+---
+
+```{r, echo=FALSE}
+library(png)
+library(grid)
+library(gridExtra)
+MACSQuant <- readRDS(paste(params$path, "/outputMQ/MACSQuant.RDS", sep = ""))
+path <- MACSQuant@param.output$path
+
+m <- max(lengths(MACSQuant@param.experiment))
+```
+
+
+## Experimental parameters
+
+These are the parameters used for this experiment.
+
+```{r, echo = FALSE}
+for (i in 1:length(MACSQuant@param.experiment)) {
+    values <- MACSQuant@param.experiment[[i]]
+    name <- names(MACSQuant@param.experiment)[i]
+    if (length(values) == 0) values <- NA
+    cat(c(name, ": ", values))
+    cat("\n")
+}
+```
+This is the template for this experiment:
+
+```{r echo = FALSE,fig.width=6.5, fig.height=6.5,fig.asp=0.9}
+template_path <- paste(MACSQuant@param.output$path, "/outputMQ/plate_template.png", sep = "")
+template_image <- readPNG(template_path)
+grid.raster(template_image)
+```
+
+
+* This template was used to order the data according to the replicates you selected.
+    * You will find the file ./outputMQ/sorted_table.txt containing the results
+
+
+## Statistics
+
+This is the table of statistics for each condition:
+```{r echo=FALSE,id="stats"}
+mat <- as.matrix(MACSQuant@statistics[, 3:7])
+rownames(mat) <- MACSQuant@statistics[, 2]
+cat(colnames(mat))
+cat("\n")
+write.table(format(round(mat, 3), justify = "right"),
+    col.names = FALSE, quote = FALSE)
+```
+
+In this table and for each conditions:
+
+* the mean of percentage over replicates of cells that incorporated the 
+fluorochrome: Fluo.percent.plus and Fluo.percent.minus 
+* the standard variation for these percentages over replicates
+* the mean of cell counts over replicates 
+* the standard deviation of cell count over replicates
+    
+    * You will find the file ./outputMQ/statistics.txt containing the results
+
+#####
+
+## Graphical representations
+
+```{r,echo = FALSE,fig.width=20, fig.height=20,fig.asp=0.5}
+path_graph1 <- paste(MACSQuant@param.output$path, "/outputMQ/barplot_counts_pipeline.png", sep = "")
+path_graph2 <- paste(MACSQuant@param.output$path, "/outputMQ/barplot_percent_pipeline.png", sep = "")
+if (file.exists(path_graph1) & file.exists(path_graph2)) {
+    img1 <-  rasterGrob(as.raster(readPNG(path_graph1)), interpolate = FALSE)
+    img2 <-  rasterGrob(as.raster(readPNG(path_graph2)), interpolate = FALSE)
+    grid.arrange(img1, img2, ncol = 2)
+}
+```
+
+
+* Here are represented the informations contains in the [statistics](#stats) table\n
+    * You will find the file ./outputMQ/barplot_percent.png or ...barplot_counts.png
+
+
+
+```{r,echo = FALSE,fig.width=20, fig.height=20,fig.asp=0.5}
+c1 <- paste(MACSQuant@param.output$path, "/outputMQ/barplot_counts.png", sep = "")
+c2 <- paste(MACSQuant@param.output$path, "/outputMQ/barplot_percent.png", sep = "")
+if (file.exists(c1) & file.exists(c2)) {
+    path_graph3 <- c1
+
+    img3 <-  readPNG(path_graph3)
+    grid.raster(img3)
+
+}
+```
+
+```{r,echo = FALSE,fig.width=20, fig.height=20,fig.asp=0.5}
+c1 <- paste(MACSQuant@param.output$path, "/outputMQ/barplot_counts.png", sep = "")
+c2 <- paste(MACSQuant@param.output$path, "/outputMQ/barplot_percent.png", sep = "")
+if (file.exists(c1) & file.exists(c2)) {
+    path_graph4 <- c2
+
+    img4 <-  readPNG(path_graph4)
+    grid.raster(img4)
+}
+```
+
+#####
+
+
+```{r echo=FALSE,id="ci",results='asis'}
+if (sum(dim(MACSQuant@combination.index.df)) > 0) {
+    cat("\n##", "Combination index", "\n")
+    cat("This is the result table of combination index for each combo condition:\n\n")
+}
+```
+
+```{r echo=FALSE}
+if (sum(dim(MACSQuant@combination.index.df)) > 0) {
+    mat <- as.matrix(MACSQuant@combination.index.df[c(1, 2, 3, 4)])
+    rownames(mat) <- MACSQuant@combination.index.df[, 9]
+    cat(c("Decision", colnames(mat)))
+    cat("\n")
+    write.table(format(round(mat, 3), justify = "right"),
+        col.names = FALSE, quote = FALSE)
+}
+```
+
+
+
+```{r,echo = FALSE,results='asis'}
+
+
+ci1 <- paste(MACSQuant@param.output$path, "/outputMQ/dose_response_curve.png", sep = "")
+ci2 <- paste(MACSQuant@param.output$path, "/outputMQ/median_effect.png", sep = "")
+ci3 <- paste(MACSQuant@param.output$path, "/outputMQ/isobologram.png", sep = "")
+ci4 <- paste(MACSQuant@param.output$path, "/outputMQ/barplot_combination_index.png", sep = "")
+
+
+if  (file.exists(ci1) & file.exists(ci2) & file.exists(ci3) & file.exists(ci4)) {
+    cat("* Here are the representations for combination indexes:\n    * You will find the files\n\t- ./outputMQ/dose_response_curve.png, \n\t- ./outputMQ/median_effect.png and \n\t- ./outputMQ/isobologram.png\n\t- ./outputMQ/barplot_combination_index.png\n\n")
+}
+```
+
+```{r echo =FALSE ,fig.width=20, fig.height=20,fig.asp=0.5}
+
+if  (file.exists(ci1) & file.exists(ci2) & file.exists(ci3) & file.exists(ci4)) {
+    plot1 <-  rasterGrob(as.raster(readPNG(ci1)), interpolate = FALSE)
+    plot2 <-  rasterGrob(as.raster(readPNG(ci2)), interpolate = FALSE)
+    grid.arrange(plot1, plot2, ncol = 2)
+}
+```
+
+```{r,echo = FALSE,fig.width=18, fig.height=18,fig.asp=0.5}
+if  (file.exists(ci1) & file.exists(ci2) & file.exists(ci3) & file.exists(ci4)) {
+    plot3 <-  rasterGrob(as.raster(readPNG(ci3)), interpolate = FALSE)
+    plot4 <-  rasterGrob(as.raster(readPNG(ci4)), interpolate = FALSE)
+    grid.arrange(plot3, plot4, ncol = 2)}
+```
