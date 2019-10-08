@@ -113,7 +113,7 @@ on_plate_selection <- function(MACSQuant,
     )
 
     # converting xy plot selecction to well name
-    cat(paste("--> ", number_of_conditions, " conditions: ...", sep = ""))
+    message(paste("--> ", number_of_conditions, " conditions: ...", sep = ""))
     for (i in seq(1, number_of_conditions)) {
         # every condition compute statistics on replicates
         # locate replicates for condition i
@@ -141,13 +141,13 @@ on_plate_selection <- function(MACSQuant,
                 stats = "mean"
             )
             # print(statistics[i, ])
-            cat(paste(i, "...", sep = ""))
+            message(paste(i, "...", sep = ""))
         } else {
             warning("Outside of selection field, select your data again")
             break
         }
     }
-    cat("OK\n")
+    message("OK\n")
     sorted_matrix_final <- sorted_matrix
     if (i != number_of_conditions) {
         stop("Process interrupted please start again")
@@ -159,7 +159,7 @@ on_plate_selection <- function(MACSQuant,
     if (control == TRUE) {
         MACSQuant@param.experiment$control <- TRUE
         message("...You can now select your control replicates...")
-        cat("--> 1 control: ...")
+        message("--> 1 control: ...")
 
         # check with users
         sorted_matrix_ctrl <- matrix(
@@ -186,14 +186,14 @@ on_plate_selection <- function(MACSQuant,
             statistics[i + 1, ] <- compute_statistics(MACSQuant, matched,
                 stats = "mean"
             )
-            cat("OK...")
+            message("OK...")
 
             # print(paste('selection',paste(sorted_matrix_ctrl[1,],collapse =
             # ','),sep=' '))
             message("\n--> Done: statistics on each control replicates")
             sorted_matrix_final <- rbind(sorted_matrix_final,
                 sorted_matrix_ctrl)
-            print(sorted_matrix_final)
+            message(sorted_matrix_final)
         } else {
             stop("Outside of selection field, select your data again")
 

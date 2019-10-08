@@ -46,10 +46,10 @@ load_MACSQuant <- function(filepath, sheet_name = NULL, MACSQuant.obj = NULL) {
                 list_paths=unlist(htm_data[[1]][,1])
 
                 tmp_data=data.frame(list_paths,
-                             unlist(htm_data[[1]][,2]),
-                             unlist(htm_data[[1]][,3]),
-                             unlist(htm_data[[1]][,4]),
-                             stringsAsFactors = FALSE)
+                                unlist(htm_data[[1]][,2]),
+                                unlist(htm_data[[1]][,3]),
+                                unlist(htm_data[[1]][,4]),
+                                stringsAsFactors = FALSE)
                 names(tmp_data)=names_col
                 return(tmp_data)
             }

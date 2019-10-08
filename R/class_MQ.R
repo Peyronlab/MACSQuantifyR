@@ -37,30 +37,3 @@ MACSQuant <- setClass("MACSQuant",
         param.experiment = "list",
         param.output = "list"))
 
-
-# show method for MACSQuant
-#
-# @param object A MACSQuant object
-# @name show
-# @aliases show,MACSQuant-method
-# @docType methods
-# @rdname show-methods
-#
-# setMethod(
-#  f = "show",
-#  signature = "MACSQuant",
-#  definition = function(object) {
-#   cat(
-#    "An object of class",
-#    class(object),
-#    "in project",
-#    object@project.name,
-#    "\n",
-#    nrow(x = object@data),
-#    "genes across",
-#    ncol(x = object@data),
-#    "samples.\n"
-#   )
-#   invisible(x = NULL)
-#  }
-# )
