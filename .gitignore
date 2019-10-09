@@ -3,4 +3,4 @@ Meta
 MACSQuantifyR.Rproj
 R/.Rhistory
 .Rhistory
-
+vignettes/*.R
