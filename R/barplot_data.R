@@ -68,7 +68,7 @@ barplot_data <- function(MACSQuant,
     l <- list(...)
     e <- new.env()
     if (length(l) > 0) {
-        for (i in seq(length(l)))
+        for (i in seq_len(length(l)))
         {
             assign(names(l)[[i]], l[[i]], envir = e)
         }

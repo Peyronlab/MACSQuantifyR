@@ -47,7 +47,7 @@ combination_index <- function(MACSQuant, ...) {
     l <- list(...)
     e <- new.env()
     if (length(l) > 0) {
-        for (i in seq(length(l)))
+        for (i in seq_len(length(l)))
         {
             assign(names(l)[[i]], l[[i]], envir = e)
         }
@@ -175,7 +175,7 @@ combination_index <- function(MACSQuant, ...) {
     case_cond <- character(length(CI))
     col <- character(length(CI))
 
-    for (i in seq(length(CI)))
+    for (i in seq_len(length(CI)))
     {
         if (CI[i] <= 0.1) {
             case_cond[i] <- "Very Strong Synergism"

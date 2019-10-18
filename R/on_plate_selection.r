@@ -114,7 +114,7 @@ on_plate_selection <- function(MACSQuant,
 
     # converting xy plot selecction to well name
     message(paste("--> ", number_of_conditions, " conditions: ...", sep = ""))
-    for (i in seq(1, number_of_conditions)) {
+    for (i in seq_len(number_of_conditions)) {
         # every condition compute statistics on replicates
         # locate replicates for condition i
         loc <- locator(type = "n", n = number_of_replicates)
