@@ -60,10 +60,9 @@ to_well_names <- function(point_matrix, col, well_letter) {
 match_id_line <- function(MACSQuant, wid_vector) {
     # match replicate id in raw data table (my_data)
     # returns indices in raw data
-    matched <- c()
-    for (j in wid_vector) {
-        matched <- c(matched, which(MACSQuant@my_data$WID == j))
-    }
+    l.indices=lapply(wid_vector,
+                FUN = function(j){which(MACSQuant@my_data$WID == j)})
+    matched=unlist(l.indices)
     return(matched)
 }
 
@@ -73,15 +72,19 @@ compute_statistics <- function(MACSQuant,
     data_selected <- MACSQuant@my_data[lines, ]
     Counts <- c()
     Percent <- c()
-    for (rep in seq(1, MACSQuant@param.experiment$number_of_replicates * 2,
-        2)) {
-        Counts <- c(
-                Counts,
-                data_selected$`Count/mL`[rep] -
-                        data_selected$`Count/mL`[rep + 1]
+    rep.indices=seq(1, MACSQuant@param.experiment$number_of_replicates * 2,
+                2)
+    c.list=lapply(rep.indices,
+        function(rep){data_selected$`Count/mL`[rep] -
+        data_selected$`Count/mL`[rep + 1]}
         )
-        Percent <- c(Percent, (data_selected$`%-#`[rep + 1]) / 100)
-    }
+    Counts=unlist(c.list)
+
+    p.list=lapply(rep.indices,
+        function(rep){(data_selected$`%-#`[rep + 1]) / 100}
+    )
+    Percent=unlist(p.list)
+
     Full.path.first <- unlist(strsplit(
         data_selected$`Full path`[1],
         "\\\\P1"
