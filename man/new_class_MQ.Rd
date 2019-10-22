@@ -9,13 +9,13 @@ new_class_MQ(my_data=NULL,my_data_sorted=NULL,my_replicates_sorted=NULL,
 experiment_name=NULL,statistics=NULL,combination.index.df=NULL,
 number_of_replicates=NULL,number_of_conditions=NULL,doses=NULL,
 doses.alt=NULL,c_names=NULL, control=NULL,plt.title=NULL,
-plt.labels=NULL,plt.col=NULL,save.files=NULL,path=NULL)
+plt.labels=NULL,plt.col=NULL,save.files=NULL,path=tempdir())
 #initialize custom MACSQuant object
 new_class_MQ(my_data,my_data_sorted=NULL,my_replicates_sorted=NULL,
 experiment_name=NULL,statistics=NULL,combination.index.df=NULL,
 number_of_replicates=NULL,number_of_conditions=NULL,
 doses=NULL,doses.alt=NULL, c_names=NULL,control=NULL,plt.title=NULL,
-plt.labels=NULL,plt.col=NULL, save.files=NULL,path=NULL)
+plt.labels=NULL,plt.col=NULL, save.files=NULL,path=tempdir())
 }
 \arguments{
 \item{my_data}{Contains the raw data}

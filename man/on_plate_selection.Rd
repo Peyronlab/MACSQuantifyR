@@ -30,7 +30,7 @@ Loads user's data, prompt a graphical representation of a 96
 well plate and let the user select where the duplicates of each
 condition were placed. Use for reordering excel file.
 Plate image with selection can also be saved in the form of a png
-file in the output_MQ directory.
+file in the "specified_path/output_MQ" directory.
 }
 \examples{
 print("run manually, requires user input")

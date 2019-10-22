@@ -90,8 +90,7 @@ the output of some functions before running other functions.
 * Create the MACSQuant object:
 
 ```{r}
-
-MACSQuant <- new_class_MQ()
+MACSQuant <- new_class_MQ(path = "output_path")
 ```
 
 
@@ -119,7 +118,7 @@ necessary for the next steps of the analysis.
 
 Load the data: 
 
-```{r load_file, include = TRUE,eval=FALSE}
+```{r load_file, include = TRUE}
 filepath <- system.file("extdata", "drugs.xlsx",
     package = "MACSQuantifyR")
 MACSQuant <- load_MACSQuant(filepath,
@@ -158,7 +157,7 @@ Experiment parameters are:
 `slot(MACSQuant,"param.experiment")$doses`
 
 
-```{r eval=FALSE}
+```{r}
 # this line is used to created c_names variable
 # for this experiment according to selection
 slot(MACSQuant, "param.experiment")$c_names <-

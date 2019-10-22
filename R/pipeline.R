@@ -36,9 +36,9 @@
 #' # let you select 5 conditions of 3 replicates each
 #' @return A formatted report file along with intermediates results
 
-source("./R/load_MACSQuant.R")
+# source("./R/load_MACSQuant.R")
 
-source("./R/on_plate_selection.r")
+# source("./R/on_plate_selection.r")
 
 
 pipeline <- function(filepath, sheet_name = NULL,
@@ -48,9 +48,9 @@ pipeline <- function(filepath, sheet_name = NULL,
                         save.files = TRUE,
                         MACSQuant.obj = NULL) {
 
-    MACSQuant <- load_MACSQuant(filepath, sheet_name, MACSQuant.obj)
+    MACSQuant <- load_MACSQuant.internal(filepath, sheet_name, MACSQuant.obj)
 
-    MACSQuant <- on_plate_selection(MACSQuant,
+    MACSQuant <- on_plate_selection.internal(MACSQuant,
         number_of_replicates,
         number_of_conditions,
         control,

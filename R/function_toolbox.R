@@ -7,11 +7,15 @@ create_output_folder <- function(MACSQuant) {
         {stop("Provided path does not exists, please sepecify a valid path")}
         path <- paste(MACSQuant@param.output$path, "/outputMQ", sep = "")
     } else {
-        path <- "./outputMQ"
+        paste(tempdir(),"/outputMQ",sep="")
+        message('You did not specify any path for the ouput directory yet')
+        message(paste('Files will be stored at a temporary path: ',
+                      tempdir(),'/outputMQ',sep=""))
+        message('If you want to retreive output files specify a path')
     }
     if (!dir.exists(file.path(path))) {
         dir.create(file.path(path))
-        message("--> Done: Folder ./outputMQ created")
+        message(paste("--> Done: Folder ",tempdir(),'/outputMQ', " created",sep=""))
     }
     return(MACSQuant)
 }

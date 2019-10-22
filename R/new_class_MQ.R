@@ -13,13 +13,13 @@
 #' experiment_name=NULL,statistics=NULL,combination.index.df=NULL,
 #' number_of_replicates=NULL,number_of_conditions=NULL,doses=NULL,
 #' doses.alt=NULL,c_names=NULL, control=NULL,plt.title=NULL,
-#' plt.labels=NULL,plt.col=NULL,save.files=NULL,path=NULL)
+#' plt.labels=NULL,plt.col=NULL,save.files=NULL,path=tempdir())
 #' #initialize custom MACSQuant object
 #' new_class_MQ(my_data,my_data_sorted=NULL,my_replicates_sorted=NULL,
 #' experiment_name=NULL,statistics=NULL,combination.index.df=NULL,
 #' number_of_replicates=NULL,number_of_conditions=NULL,
 #' doses=NULL,doses.alt=NULL, c_names=NULL,control=NULL,plt.title=NULL,
-#' plt.labels=NULL,plt.col=NULL, save.files=NULL,path=NULL)
+#' plt.labels=NULL,plt.col=NULL, save.files=NULL,path=tempdir())
 #' @param my_data Contains the raw data
 #' @param my_data_sorted  Contains the sorted data
 #' (according to replicates order)
@@ -72,7 +72,7 @@ new_class_MQ <- function(my_data = NULL,
                         plt.labels = NULL,
                         plt.col = NULL,
                         save.files = NULL,
-                        path = NULL) {
+                        path = tempdir()) {
     if (is.null(my_data)) {
         my_data <- data.frame()
     }
@@ -122,9 +122,16 @@ new_class_MQ <- function(my_data = NULL,
     if (is.null(plt.col)) {
         plt.col <- character()
     }
-    if (is.null(path)) {
-        path <- getwd()
+    if (path == tempdir() | is.null(path)) {
+        message('You did not specify any path for the ouput directory yet.')
+        message(paste('Files will be stored at a temporary path: ',
+        tempdir(),'/outputMQ',sep=""))
+        message('If you want to retreive output files specify a path using the setPath() function.')
+    } else if (path=='output_path')
+    {
+      path=tempdir()
     }
+
 
     MACSQuant <- new(Class = "MACSQuant",
         my_data = my_data,
