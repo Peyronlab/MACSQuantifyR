@@ -49,8 +49,18 @@ to combination index callculation MACSQuantifyR is a
 
 You can install the released version of MACSQuantifyR with:
 
+
 ``` r
-# installation code 
+# package available in devel version 
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+
+BiocManager::install("MACSQuantifyR")
+
 ```
 
 ## News
