@@ -17,7 +17,7 @@ Contains the original data table}
 object of class MACSQuant with updated path
 }
 \description{
-This function allows the user to set the output dirrectory path
+This function allows the user to set the output directory path
 }
 \examples{
 filepath <- system.file("extdata", "SingleDrugs.xlsx",

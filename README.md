@@ -1,7 +1,7 @@
 # MACSQuantifyR
 
 The goal of MACSQuantifyR is to analyze MACSQuantify excel files
-through a user-friendly GUI innterface. 
+through a user-friendly GUI interface. 
 
 
 # Benefits
@@ -40,7 +40,7 @@ generation with graphical representations for a
 &nbsp;
 
 From replicate ordering 
-to combination index callculation MACSQuantifyR is a
+to combination index calculation MACSQuantifyR is a
 
 - __all-in-one package for biologists__
 &nbsp;

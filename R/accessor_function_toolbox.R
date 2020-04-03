@@ -2,7 +2,7 @@
 #'
 #' @title sets custom output path
 #' @description
-#' This function allows the user to set the output dirrectory path
+#' This function allows the user to set the output directory path
 #' @name setPath
 #' @rdname setPath
 #' @aliases setPath
